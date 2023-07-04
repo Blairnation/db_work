@@ -17,7 +17,9 @@ class InteractDB:
 
 
     def display_database(self):
-        self.db.read()
+        emp_data = self.db.read()
+        for data in emp_data:
+            print(data)
 
 
     def remove(self):
@@ -26,30 +28,41 @@ class InteractDB:
 
 
     def get_username(self):
-        usernames = self.db.read()
-        for username in usernames:
-            print(username)
+        user_names = self.db.read()
+        for emp in user_names:
+            print(emp[1])
+
+
+    def update_info(self):
+        email = input('Enter Email: ')
+        password = input('Enter password: ')
+        username = input('Enter new username: ')
+        address = input('Enter new address: ')
+        self.db.update(email, password, username, address)        
 
     def start(self):
        while True:
-          print('''1.Register\n2.Display\n3.Get Usernames\n3.Delete Info''')
+          print('''1.Register\n2.Display\n3.Get Usernames\n4.Delete Info\n5.Update''')
           try: 
-           option  = int(input("Enter option: "))
-           while option < 1 or option > 4:
-              option = int(input('Enter valid option: '))    
-           if option == 1:
-               self.register()
-               print('Registered Succesfully')
-               break
-           elif option == 2:
-                self.display_database()
+            option  = int(input("Enter option: "))
+            while option < 1 or option > 5:
+                option = int(input('Enter valid option: '))    
+            if option == 1:
+                self.register()
+                print('Registered Succesfully')
                 break
-           elif option == 3:
-                self.get_username()
+            elif option == 2:
+                    self.display_database()
+                    break
+            elif option == 3:
+                    self.get_username()
+                    break
+            elif option == 4:
+                self.remove()
                 break
-           elif option == 4:
-               self.remove()
-               break
+            elif option == 5:
+                self.update_info()
+                break
           except ValueError as err:
               print(f'Error: {err}')
 

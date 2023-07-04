@@ -36,21 +36,33 @@ class SQliteDatabase:
     def read(self):
         self.cursor.execute('SELECT rowid,* FROM employees')
         rows = self.cursor.fetchall()
-        for row in rows:
-            print(row)
+        return rows
        
 
 
     def delete(self,id):
         self.cursor.execute(f'''DELETE FROM employees WHERE rowid = {id}''')
+        print("Detail Deleted Successfully")
         self.connection.commit()
 
 
 
-    def update(self,new_email, password, address):
-        self.cursor.execute(f'''UPDATE employees SET address = {address},
-                                email = {new_email}
-                                WHERE password = {password}''')
+    def update(self,email, password,username, address):
+        self.cursor.execute('''SELECT * FROM employees WHERE email == ? 
+                                         AND password == ?''', (email,password))
+        
+        exist = self.cursor.fetchone()
+        if exist:
+            self.cursor.execute('''UPDATE employees SET user_name = ?,
+                                    address = ? 
+                                    WHERE email = ? AND password = ?''',
+                                    (username,address,email,password))
+            self.connection.commit()
+            print('Updated Successfully')
+            
+        else:
+            print('Invalid Email OR Password!!')
+            
         
 
 
