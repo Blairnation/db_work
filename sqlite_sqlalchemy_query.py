@@ -48,7 +48,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-
+# INSERTING INTO CUSTOMERS TABLE
 # c1 = Customers('Tony Blair', 'tonyblair@gmail.com',"Sunyani")
 # c2 = Customers('Cristiano Ronaldo', 'cr7@gmail.com',"Abu Dhabi")
 # c3 = Customers('Lionel Messi', 'lm10@gmail.com', 'Miami')
@@ -57,6 +57,8 @@ session = Session()
 # session.add_all([c1,c2,c3,c4])
 # session.commit()
 
+
+# INSERTING INTO ITEMS TABLE
 # t1 = Items("Nike shoe", 150, c1.customer_id)
 # t2 = Items("Nike shoe", 1000, c2.customer_id)
 # t3 = Items("Adidas shoe", 1500, c3.customer_id)
@@ -68,16 +70,12 @@ session = Session()
 # session.commit()
 
 
-amounts = session.query(Customers.customer_name,Items.price).filter(Customers.customer_id == Items.customer_id)
-for amount in amounts:
-     print(amount)
-
-
+# QUERYING FOR SPECIFIC DATA IN BOTH TABLE
 # total = session.query(Customers.customer_name,func.sum(Items.price)).filter(Customers.customer_id == Items.customer_id).group_by(Customers.customer_name) 
 # for name, price in total:
 #      print(f'Name: {name}  Price: ${price}')
 
-
+# OR
 # amounts = (
 #     session
 #     .query(Customers.customer_name, func.sum(Items.price))
@@ -87,3 +85,11 @@ for amount in amounts:
 
 # for customer_name, total_price in amounts:
 #     print(f"Customer: {customer_name}, Total Price: ${total_price}")
+
+
+# QUERY AND DELETING SPECIFIC ITEMS
+item = session.query(Items).filter(Items.itemid == 6).first()
+session.delete(item)
+session.commit()
+print('Item Deleted Successfully')
+
